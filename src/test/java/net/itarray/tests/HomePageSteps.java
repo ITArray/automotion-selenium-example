@@ -27,6 +27,15 @@ public class HomePageSteps {
     private static ResponsiveUIValidator uiValidator;
     private WebDriverFactory driverFactory;
 
+    private void initPage() {
+        driver.manage().window().maximize();
+        page = new HomePage(driver);
+        uiValidator = new ResponsiveUIValidator(driver);
+        uiValidator.setLinesColor(Color.BLACK);
+        uiValidator.setColorForHighlightedElements(Color.GREEN);
+        uiValidator.setColorForRootElement(Color.BLUE);
+    }
+
     @Given("^new session of (.+) driver for desktop$")
     public void new_session_of_Chrome_Driver_for_desktop(String browser) {
         Map<String, String> sysProp = new HashMap<String, String>();
@@ -45,7 +54,7 @@ public class HomePageSteps {
         sysProp.put("EXECUTOR", "http://127.0.0.1:9515");
         sysProp.put("MOBILE_DEVICE_EMULATION", mobileDevice);
         EnvironmentHelper.setEnv(sysProp);
-        if (isRemote() && isChrome()){
+        if (isRemote() && isChrome()) {
             Runtime.getRuntime().exec("src/main/resources/drivers/chromedriver");
         }
         driverFactory = new WebDriverFactory();
@@ -54,10 +63,7 @@ public class HomePageSteps {
 
     @When("^user opens the home page$")
     public void user_opens_the_home_page() {
-        driver.manage().window().maximize();
-        page = new HomePage(driver);
-        uiValidator = new ResponsiveUIValidator(driver);
-        uiValidator.setLinesColor(Color.BLACK);
+        initPage();
         driver.get("http://visual.itarray.net/");
     }
 
