@@ -19,6 +19,13 @@ Feature: Performing of visual testing for Home Page on desktop
   Scenario: validate that every element of grid view hav correct style
     Then every element of grid view have correct background color '#f8f8f8'
 
+  Scenario Outline: validate that main container and grid are aligned in a center
+    Then main container and grid are aligned in a center horizontally with equal left and right offset when windows size is <width> x <height>
+    Examples:
+      | width | height |
+      | 1200  | 900    |
+      | 800   | 600    |
+
   Scenario: generate html report
     Then html report is going to be generated
 

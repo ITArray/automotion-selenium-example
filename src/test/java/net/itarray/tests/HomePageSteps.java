@@ -8,6 +8,7 @@ import net.itarray.pages.HomePage;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import util.driver.WebDriverFactory;
@@ -73,6 +74,7 @@ public class HomePageSteps {
                 .findElement(page.topSlider(), "Top Slider")
                 .sameOffsetLeftAs(page.gridContainer(), "Grid Container")
                 .sameOffsetBottomAs(page.topTextBlock(), "Text Block")
+                .changeMetricsUnitsTo(ResponsiveUIValidator.Units.PX)
                 .widthBetween(minWidth, maxWidth)
                 .drawMap()
                 .validate();
@@ -99,6 +101,7 @@ public class HomePageSteps {
                 .alignedAsGrid(columns, rows)
                 .withSameSize()
                 .areNotOverlappedWithEachOther()
+                .sameTopOffset()
                 .drawMap()
                 .validate();
 
@@ -133,5 +136,23 @@ public class HomePageSteps {
         if (driver != null) {
             driver.quit();
         }
+    }
+
+    @Then("^main container and grid are aligned in a center horizontally with equal left and right offset when windows size is (\\d+) x (\\d+)$")
+    public void main_container_and_grid_are_aligned_in_a_center_horizontally_with_equal_left_and_right_offset(int width, int height) {
+        driver.manage().window().setSize(new Dimension(width, height));
+        boolean successGrid = uiValidator.init("Validation of a grid view")
+                .findElement(page.gridContainer(), "Grid container")
+                .equalLeftRightOffset()
+                .drawMap()
+                .validate();
+
+        boolean successContainer = uiValidator.init("Validation of a grid view")
+                .findElement(page.mainContainer(), "Main container")
+                .equalLeftRightOffset()
+                .drawMap()
+                .validate();
+
+        Assert.assertTrue("Visual validation of elements grid view and main container is failed", successGrid && successContainer);
     }
 }
