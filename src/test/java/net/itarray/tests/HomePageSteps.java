@@ -167,7 +167,7 @@ public class HomePageSteps {
                 .drawMap()
                 .validate();
 
-        boolean successContainer = uiValidator.init("Validation of a grid view with zoom page " + zoom + "%")
+        boolean successContainer = uiValidator.init("Validation of a Container view with zoom page " + zoom + "%")
                 .findElement(page.mainContainer(), "Main container")
                 .equalLeftRightOffset()
                 .drawMap()
