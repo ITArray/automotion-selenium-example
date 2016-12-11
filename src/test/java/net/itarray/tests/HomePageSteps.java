@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import util.driver.DriverHelper;
 import util.driver.WebDriverFactory;
 import util.validator.ResponsiveUIValidator;
 
@@ -148,6 +149,25 @@ public class HomePageSteps {
                 .validate();
 
         boolean successContainer = uiValidator.init("Validation of a grid view")
+                .findElement(page.mainContainer(), "Main container")
+                .equalLeftRightOffset()
+                .drawMap()
+                .validate();
+
+        Assert.assertTrue("Visual validation of elements grid view and main container is failed", successGrid && successContainer);
+    }
+
+    @Then("^main container and grid are aligned in a center horizontally with equal left and right offset when window zoom is (\\d+)$")
+    public void main_container_and_grid_are_aligned_in_a_center_horizontally_with_equal_left_and_right_offset_when_zoom_is(int zoom) {
+        driver.manage().window().maximize();
+        DriverHelper.zoomInOutPage(driver, zoom);
+        boolean successGrid = uiValidator.init("Validation of a grid view with zoom page " + zoom + "%")
+                .findElement(page.gridContainer(), "Grid container")
+                .equalLeftRightOffset()
+                .drawMap()
+                .validate();
+
+        boolean successContainer = uiValidator.init("Validation of a grid view with zoom page " + zoom + "%")
                 .findElement(page.mainContainer(), "Main container")
                 .equalLeftRightOffset()
                 .drawMap()

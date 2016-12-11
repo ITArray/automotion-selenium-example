@@ -26,6 +26,16 @@ Feature: Performing of visual testing for Home Page on desktop
       | 1200  | 900    |
       | 800   | 600    |
 
+  Scenario Outline: validate that main container and grid are aligned in a center
+    Then main container and grid are aligned in a center horizontally with equal left and right offset when window zoom is <zoom>
+    Examples:
+      | zoom |
+      | 50   |
+      | 70   |
+      | 100  |
+      | 120  |
+      | 150  |
+
   Scenario: generate html report
     Then html report is going to be generated
 
