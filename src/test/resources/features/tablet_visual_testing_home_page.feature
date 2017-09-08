@@ -4,7 +4,7 @@ Feature: Performing of visual testing for Home Page on Tablet device
   and all the elements have correct sizes and styles
 
   Scenario: start new session
-    Given new session of Chrome driver for mobile device 'Apple iPad'
+    Given new session of Chrome driver for mobile device 'iPad'
     When user opens the home page
 
   Scenario: validate that top slider element has correct alignment

@@ -20,11 +20,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static net.itarray.automotion.internal.properties.PercentReference.PAGE;
 import static net.itarray.automotion.tools.environment.EnvironmentFactory.isChrome;
 import static net.itarray.automotion.tools.environment.EnvironmentFactory.isRemote;
 import static net.itarray.automotion.validation.properties.Condition.between;
-import static net.itarray.automotion.validation.properties.Expression.percent;
+import static net.itarray.automotion.validation.properties.Expression.percentOrPixels;
 
 public class HomePageSteps {
     private static WebDriver driver;
@@ -33,7 +32,6 @@ public class HomePageSteps {
     private WebDriverFactory driverFactory;
 
     private void initPage() {
-        //driver.manage().window().maximize();
         page = new HomePage(driver);
         uiValidator = new ResponsiveUIValidator(driver);
         uiValidator.setLinesColor(Color.BLACK);
@@ -78,7 +76,7 @@ public class HomePageSteps {
                 .findElement(page.topSlider(), "Top Slider")
                 .isLeftAlignedWith(page.gridContainer(), "Grid Container")
                 .isBottomAlignedWith(page.topTextBlock(), "Text Block")
-                .hasWidth(between(percent(minWidth, PAGE)).and(percent(maxWidth, PAGE)))
+                .hasWidth(between(percentOrPixels(minWidth)).and(percentOrPixels(maxWidth)))
                 .validate();
 
         Assert.assertTrue("Visual validation of Top Slider is failed", success);
@@ -155,7 +153,6 @@ public class HomePageSteps {
 
     @Then("^main container and grid are aligned in a center horizontally with equal left and right offset when window zoom is (\\d+)$")
     public void main_container_and_grid_are_aligned_in_a_center_horizontally_with_equal_left_and_right_offset_when_zoom_is(int zoom) {
-        driver.manage().window().maximize();
         DriverHelper.zoomInOutPage(driver, zoom);
         boolean successGrid = uiValidator.snapshot("Validation of a grid view with zoom page " + zoom + "%")
                 .findElement(page.gridContainer(), "Grid container")
